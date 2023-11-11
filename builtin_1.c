@@ -16,11 +16,24 @@ int change_dir(info_t *info)
 
 	if (!info->argv[1])
 	{
-		chdir_res = ch_to_home_dir(info);
+		dir = _getenv(info, "Home=");
+		if (!dir)
+			chdir_res =
+				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
+		else
+			chdir_ret = chdir(dir);
 	}
 	else if (_strcmp(info->argv[1], "-") == 0)
 	{
-		chdir_res = ch_to_prev_dir(info, s);
+		if (!_getenv(info, "OLDPWD="))
+		{
+			_puts(s);
+			_putchar('\n');
+			return (1);
+		}
+		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
+		chdir_res =
+			chdir((dir = _getenv(info, "OLDPWD=")) ? : "/");
 	}
 	else
 	{
@@ -29,11 +42,13 @@ int change_dir(info_t *info)
 
 	if (chdir_res == -1)
 	{
-		handle_dir_ch_err(info);
+		print_error(info, "cannot change dir to ");
+		_eputs(info->argv[1]), _eputchar('\n');
 	}
 	else
 	{
-		update_work_dir_env(info, buffer);
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buffer, 1024));
 	}
 	return (0);
 }
@@ -49,7 +64,7 @@ int exit_shell(info_t *info)
 
 	if (info->argv[1])
 	{
-		exit_code = _err_atoi(info->argv[1]);
+		exit_code = _erratoi(info->argv[1]);
 		if (exit_code == -1)
 		{
 			info->status = 2;
@@ -88,7 +103,7 @@ int show_help(info_t *info)
  */
 int show_hist(info_t *info)
 {
-	print_list(info->hist);
+	print_list(info->history);
 	return (0);
 }
 
@@ -108,7 +123,7 @@ int unset_alias(info_t *info, char *str)
 		return (1);
 	c = *p;
 	*p = 0;
-	ret = rm_node(info->alias,
+	ret = rm_node_at_index(&(info->alias,
 			get_node_ind(info->alias, node_starts_with(info->alias, str, -1)));
 	*p = c;
 

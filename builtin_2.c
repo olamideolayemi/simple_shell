@@ -36,7 +36,7 @@ int print_alias_cmd(list_t *node)
 			_putchar(*a);
 		_putchar('\'');
 		_puts(p + 1);
-		_puts(" '\n");
+		_puts("'\n");
 		return (0);
 	}
 	return (1);

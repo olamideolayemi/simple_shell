@@ -66,7 +66,7 @@ int _putsfd(char *str, int fd)
 int _putfd(char c, int fd)
 {
 	static int i;
-	stattic char buf[BUFFER_SIZE];
+	static char buf[BUFFER_SIZE];
 
 	if (c == BUFFER_FLUSH || >= BUFFER_SIZE)
 	{
