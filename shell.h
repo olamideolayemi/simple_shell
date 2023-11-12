@@ -13,10 +13,86 @@
 #include <limits.h>
 #include <termios.h>
 
-#define BUFFER_SIZE 1024
+#define WRITE_BUFFER_SIZE 1024
+#define READ_BUFFER_SIZE 1024
 #define DELIM " \t\r\n\a"
 #define TOKEN_BUFFER 210
 #define BUFFER_FLUSH -1
+
+#define CMD_NORM	0
+#define CMD_OR		1
+#define CMD_AND		2
+#define CMD_CHAIN	3
+
+#define CONVERT_LOWERCASE	1
+#define CONVERT_UNSIGNED	2
+
+/**
+ * struct liststr - singly linked list
+ * @num: number field
+ * @str: string
+ * @next: next node points
+ */
+typedef struct liststr
+{
+	int num;
+	char *str;
+	struct liststr *next;
+} list_t;
+
+/**
+ * struct passinfo - contains pseudo-arguements to pass into a function,
+ * allowing uniform prototype for function pointer struct
+ *
+ * @arg: a string generated from getline containing arguements
+ * @argv: an array of strings generated from arg
+ * @path: a string path for the current command
+ * @argc: the argument count
+ * @line_count: the error count
+ * @err_num: the error code for exit()s
+ * @linecount_flag: if on count this line of input
+ * @fname: the program filename
+ * @env: linked list local copy of environ
+ * @environ: custom modified copy of environ from LL env
+ * @history: the history node
+ * @alias: the alias node
+ * @env_changed: on if environ was changed
+ * @status: the return status of the last exec'd command
+ * @cmd_buf: address of pointer to cmd_buf, on if chaining
+ * @cmd_buf_type: CMD_type ||, &&, ;
+ * @readfd: the fd from which to read line input
+ * @histcount: the history line number count
+ */
+typedef struct passinfo
+{
+	int argc;
+	char *arg;
+	char **argv;
+	char **environ;
+	int status;
+	int env_changed;
+	int readfd;
+	int histcount;
+	int err_num;
+	unsigned int line_count;
+	char *fname;
+	list_t *env;
+	list_t *history;
+	list_t *alias;
+	char cmd_buf;
+	int cmd_buf_type;
+} info_t;
+
+/**
+ * struct builtin - string related function
+ * @type: command flag
+ * @func: the  function
+ */
+typedef struct builtin
+{
+	char *type;
+	int (*func)(info_t *);
+} builtin_table;
 
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, \
@@ -38,16 +114,16 @@ char *_strcpy(char *dst, char *src);
 char *dup_str(const char *str);
 
 /* builtin_1.c prototypes */
-int change_dir(ino_t *info);
-int exit_shell(ino_t *info);
-int show_help(ino_t *info);
-int show_hist(ino_t *info);
-int unset_alias(ino_t *info, char *str);
+int change_dir(info_t *info);
+int exit_shell(info_t *info);
+int show_help(info_t *info);
+int show_hist(info_t *info);
+int unset_alias(info_t *info, char *str);
 
 /* builtin_2.c prototypes */
-int set_alias_cmd(ino_t *info, char *str);
+int set_alias_cmd(info_t *info, char *str);
 int print_alias_cmd(list_t *node);
-int manage_alias(ino_t *info);
+int manage_alias(info_t *info);
 
 /* pr_errors_1.c prototypes */
 int _putfd(char c, int fd);
@@ -63,32 +139,6 @@ size_t print_list_str(const list_t *h);
 int del_node_ind(list_t **head, unsigned int index);
 void free_list(list_t **head_ptr);
 
-
-
-typedef struct liststr
-{
-	int num;
-	char *str;
-	struct liststr *next;
-} list_t;
-
-typedef struct passinfo
-{
-	int argc;
-	char *arg;
-	char **argv;
-	char **environ;
-	int status;
-	int env_changed;
-	int readfd;
-	int histcount;
-	int err_num;
-	unsigned int line_count;
-	char *fname;
-	list_t *env;
-	list_t *history;
-	list_t *alias;
-} info_t;
 
 
 #endif

@@ -21,7 +21,7 @@ int change_dir(info_t *info)
 			chdir_res =
 				chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
 		else
-			chdir_ret = chdir(dir);
+			chdir_res = chdir(dir);
 	}
 	else if (_strcmp(info->argv[1], "-") == 0)
 	{

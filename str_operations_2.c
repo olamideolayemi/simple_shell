@@ -8,9 +8,9 @@
 int _putchar(char c)
 {
 	static int i;
-	static char buf[BUFFER_SIZE];
+	static char buf[READ_BUFFER_SIZE];
 
-	if (c == BUFFER_FLUSH || i >= BUFFER_SIZE)
+	if (c == BUFFER_FLUSH || i >= READ_BUFFER_SIZE)
 	{
 		write(1, buf, i);
 		i = 0;

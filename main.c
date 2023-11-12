@@ -8,7 +8,7 @@
  */
 int main(int argc, char **argv)
 {
-	info_t info[] = {INFO_INIT };
+	info_t info[] = { INFO_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -36,8 +36,8 @@ int main(int argc, char **argv)
 		}
 		info->readfd = fd;
 	}
-	pop_env_list(_info);
-	rd_hist(_info);
-	hsh(_info, argv);
+	pop_env_list(info);
+	read_history(info);
+	hsh(info, argv);
 	return (EXIT_SUCCESS);
 }
