@@ -114,16 +114,16 @@ char *_strcpy(char *dst, char *src);
 char *dup_str(const char *str);
 
 /* builtin_1.c prototypes */
-int change_dir(info_t *info);
-int exit_shell(info_t *info);
-int show_help(info_t *info);
-int show_hist(info_t *info);
+int _chdir(info_t *info);
+int _shellexit(info_t *info);
+int _showhelp(info_t *info);
+int _showhistory(info_t *info);
 int unset_alias(info_t *info, char *str);
 
 /* builtin_2.c prototypes */
 int set_alias_cmd(info_t *info, char *str);
 int print_alias_cmd(list_t *node);
-int manage_alias(info_t *info);
+int _manalias(info_t *info);
 
 /* pr_errors_1.c prototypes */
 int _putfd(char c, int fd);

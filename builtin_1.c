@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * change_dir - modifies the working directory of the process
+ * _chdir - modifies the working directory of the process
  * @info: struct containing arguments
  * Return: Always 0
  */
-int change_dir(info_t *info)
+int _chdir(info_t *info)
 {
 	char *s, *dir, buffer[1024];
 	int chdir_res;
@@ -54,11 +54,11 @@ int change_dir(info_t *info)
 }
 
 /**
- * exit_shell - terminates shell processes
+ * _shellexit - terminates shell processes
  * @info: struct containing potential arguments
  * Return: 0
  */
-int exit_shell(info_t *info)
+int _shellexit(info_t *info)
 {
 	int exit_code;
 
@@ -81,11 +81,11 @@ int exit_shell(info_t *info)
 }
 
 /**
- * show_help - displays help information
+ * _showhelp - displays help information
  * @info: structure containing potential arguments
  * Return: Always 0
  */
-int show_help(info_t *info)
+int _showhelp(info_t *info)
 {
 	char **arg_array;
 
@@ -97,11 +97,11 @@ int show_help(info_t *info)
 }
 
 /**
- * show_hist - displays command history with line numbers
+ * _showhistory - displays command history with line numbers
  * @info: struct containing potential arguments
  * Return: Always 0
  */
-int show_hist(info_t *info)
+int _showhistory(info_t *info)
 {
 	print_list(info->history);
 	return (0);

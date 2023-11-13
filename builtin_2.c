@@ -43,11 +43,11 @@ int print_alias_cmd(list_t *node)
 }
 
 /**
- * manage_alias - manages alias
+ * _manalias - manages alias
  * @info: structure containing potential arguments
  * Return: Always 0 (Success)
  */
-int manage_alias(info_t *info)
+int _manalias(info_t *info)
 {
 	int i = 0;
 	char *p = NULL;
