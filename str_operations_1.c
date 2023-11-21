@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * str_len - returns the length of a string
+ * _strlen - returns the length of a string
  * @str: string whose length to determine
  * Return: length of the string
  */
-int str_len(char *str)
+int _strlen(char *str)
 {
 	int len = 0;
 
@@ -19,12 +19,12 @@ int str_len(char *str)
 }
 
 /**
- * str_st_w - checks starting of string
+ * starts_with - checks starting of string
  * @hay: string to be searched
  * @ndl: substring to find
  * Return: address of next char
  */
-char *str_st_w(const char *hay, const char *ndl)
+char *starts_with(const char *hay, const char *ndl)
 {
 	while (*ndl)
 	{
@@ -35,12 +35,12 @@ char *str_st_w(const char *hay, const char *ndl)
 }
 
 /**
- * str_concat - concatenates two strings
+ * _strconcat - concatenates two strings
  * @dst: buffer destination
  * @src: buffer source
  * Return: pointer to buffer destination
  */
-char *str_concat(char *dst, char *src)
+char *_strconcat(char *dst, char *src)
 {
 	char *res = dst;
 
@@ -56,13 +56,13 @@ char *str_concat(char *dst, char *src)
 }
 
 /**
- * str_cmp - compares two strings
+ * _strcmp - compares two strings
  * @str1: first string
  * @str2: the second string
  * Return: Negative (if str1 is less than str2),
  * positive (str1 is greater str2)
  */
-int str_cmp(char *str1, char *str2)
+int _strcmp(char *str1, char *str2)
 {
 	while (*str1 && *str2)
 	{

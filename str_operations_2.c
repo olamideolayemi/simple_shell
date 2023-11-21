@@ -8,9 +8,9 @@
 int _putchar(char c)
 {
 	static int i;
-	static char buf[READ_BUFFER_SIZE];
+	static char buf[WRITE_BUFFER_SIZE];
 
-	if (c == BUFFER_FLUSH || i >= READ_BUFFER_SIZE)
+	if (c == BUFFER_FLUSH || i >= WRITE_BUFFER_SIZE)
 	{
 		write(1, buf, i);
 		i = 0;
@@ -29,27 +29,27 @@ int _putchar(char c)
  */
 char *_strcpy(char *dst, char *src)
 {
-	int i = 0;
+	int a = 0;
 
 	if (dst == src || src == NULL)
 		return (dst);
 
-	while (src[i])
+	while (src[a])
 	{
-		dst[i] = src[i];
+		dst[a] = src[a];
 		i++;
 	}
-	dst[i] = '\0';
+	dst[a] = '\0';
 
 	return (dst);
 }
 
 /**
- * dup_str - duplicates string
+ * _dupstr - duplicates string
  * @str: string to be duplicated
  * Return: pointer to duplicated string
  */
-char *dup_str(const char *str)
+char *_dupstr(const char *str)
 {
 	int len = 0;
 	char *res;

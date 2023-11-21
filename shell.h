@@ -16,102 +16,35 @@
 #define WRITE_BUFFER_SIZE 1024
 #define READ_BUFFER_SIZE 1024
 #define DELIM " \t\r\n\a"
-#define TOKEN_BUFFER 210
+#define TOKEN_BUFFER 510
 #define BUFFER_FLUSH -1
 
-#define CMD_NORM	0
-#define CMD_OR		1
-#define CMD_AND		2
-#define CMD_CHAIN	3
-
-#define CONVERT_LOWERCASE	1
-#define CONVERT_UNSIGNED	2
-
 /**
- * struct liststr - singly linked list
- * @num: number field
- * @str: string
- * @next: next node points
+ * struct terminal_settings - structure to store settings in the termina
+ * @original: original settings
  */
-typedef struct liststr
+typedef struct terminal_settings
 {
-	int num;
-	char *str;
-	struct liststr *next;
-} list_t;
+	struct termios original;
+} terminal_set;
 
-/**
- * struct passinfo - contains pseudo-arguements to pass into a function,
- * allowing uniform prototype for function pointer struct
- *
- * @arg: a string generated from getline containing arguements
- * @argv: an array of strings generated from arg
- * @path: a string path for the current command
- * @argc: the argument count
- * @line_count: the error count
- * @err_num: the error code for exit()s
- * @linecount_flag: if on count this line of input
- * @fname: the program filename
- * @env: linked list local copy of environ
- * @environ: custom modified copy of environ from LL env
- * @history: the history node
- * @alias: the alias node
- * @env_changed: on if environ was changed
- * @status: the return status of the last exec'd command
- * @cmd_buf: address of pointer to cmd_buf, on if chaining
- * @cmd_buf_type: CMD_type ||, &&, ;
- * @readfd: the fd from which to read line input
- * @histcount: the history line number count
- */
-typedef struct passinfo
-{
-	int argc;
-	char *arg;
-	char **argv;
-	char **environ;
-	int status;
-	int env_changed;
-	int readfd;
-	int histcount;
-	int err_num;
-	unsigned int line_count;
-	char *fname;
-	list_t *env;
-	list_t *history;
-	list_t *alias;
-	char cmd_buf;
-	int cmd_buf_type;
-} info_t;
-
-/**
- * struct builtin - string related function
- * @type: command flag
- * @func: the  function
- */
-typedef struct builtin
-{
-	char *type;
-	int (*func)(info_t *);
-} builtin_table;
-
-#define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, \
-	0, 0, 0, 0, NULL, NULL, NULL}
 
 /* Points to an array of pointers to strings called the environment */
 extern char **environ;
 
+/*****************************************************/
+
 /* str_operators_1 prototypes */
-int str_len(char *str);
-char *str_st_w(const char *hay, const char *ndl);
-char *str_concat(char *dst, char *src);
-int str_cmp(char *str1, char *str2);
+int _strlen(char *str);
+char *starts_with(const char *hay, const char *ndl);
+char *_strconcat(char *dst, char *src);
+int _strcmp(char *str1, char *str2);
 void _puts(char *str);
 
 /* str_operators_2 prototypes */
 int _putchar(char c);
 char *_strcpy(char *dst, char *src);
-char *dup_str(const char *str);
+char *_dupstr(const char *str);
 
 /* builtin_1.c prototypes */
 int _chdir(info_t *info);
@@ -138,6 +71,14 @@ list_t *add_node_end(list_t **head, const char *str, int num);
 size_t print_list_str(const list_t *h);
 int del_node_ind(list_t **head, unsigned int index);
 void free_list(list_t **head_ptr);
+
+/* shell_loop_1.c prototypes */
+int shell_loop(char **argv);
+char *shell_getline(void);
+int shell_execute(char **av1, char **av2, char **argv, char *cli_arg,
+		int line_count);
+char **parse_line1(char *cli_arg);
+int fork_cmd(char **av, char **argv, int line_count);
 
 
 
