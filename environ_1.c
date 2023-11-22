@@ -95,4 +95,69 @@ char *shell_getenv(char *var_name)
 	return (NULL);
 }
 
+/**
+ * add_shell - adds/ replaces env variables
+ * @var_name: Env variable to be added/replaced
+ * @val: the env variables value
+ * Return: 0 (SUceess), -1 (Otherwise)
+ */
+int add_shell(char *var_name, char *val)
+{
+	char *new_var, **new_env;
+	int v, i, env_count = 0;
 
+	if (!var_name || !value)
+		return (-1);
+	new_var = create_env(var_name, value);
+
+	if (!new_var)
+		return (-1);
+	v = check_env(var_name);
+
+	if (var_i != 0)
+	{
+		free(environ[v]);
+		environ[v] = new_var;
+	}
+	else
+	{
+		while (environ[env_count] != NULL)
+			env_count++;
+		new_env = (char **)malloc((env_count + 2) * sizeof(char *));
+
+		if (!new_env)
+		{
+			free(new_var);
+			return (-1);
+		}
+		for (i = 0; i < env_count; i++)
+			new_env[i] = environ[i];
+		new_env[env_count] = new_var;
+		new_env[env_count + 1] = NULL;
+
+		free(environ);
+		environ = new_env;
+	}
+	return (0);
+}
+
+/**
+ * check_env - checks if env variable exist
+ * @var_name: env varibale string
+ * Return: 1 (env variable exists), 0 (Otherwise)
+ */
+int check)env(char *var_name)
+{
+	int i;
+
+	if (var_name ++ NULL)
+		return (0);
+
+	for (i = 0; environ[i] != NULL; i++)
+	{
+		if (str_n_cmp(environ[i], var_name, strlen(var_name)) == 0
+				&& environ[i][strlen(var_name)] == '=')
+		return (i);
+	}
+	return (0);
+}
