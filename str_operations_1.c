@@ -12,7 +12,7 @@ int _strlen(char *str)
 	if (!str)
 		return (0);
 
-	while (*str++)
+	while (str[len] != '\0')
 		len++;
 
 	return (len);
@@ -40,17 +40,17 @@ char *starts_with(const char *hay, const char *ndl)
  * @src: buffer source
  * Return: pointer to buffer destination
  */
-char *_strconcat(char *dst, char *src)
+char *_strconcat(char *target, char *src)
 {
-	char *res = dst;
+	int *res = target;
 
-	while (*dst)
-		dst++;
+	while (*target)
+		target++;
 
 	while (*src)
-		*dst++ = *src++;
+		*target++ = *src++;
 
-	*dst = *src;
+	*target = *src;
 
 	return (res);
 }
